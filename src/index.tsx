@@ -190,7 +190,7 @@ const StepProgressBar = React.forwardRef((props: StepProgressProps, ref) => {
           </a>
         ) : (
           <div className={skipNextWrapperClass ? skipNextWrapperClass : 'skip-next-wrapper'}>
-            {state[currentIndex].skippable ? <a className={skipBtnClass}>Skip</a> : null}
+            {state[currentIndex].skippable ? <a className={skipBtnClass} onClick={nextHandler}>Skip</a> : null}
             <a
               className={`${styles['step-action-btn']} ${styles['action-btn-primary']} ${
                 primaryBtnClass || ''
