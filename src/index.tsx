@@ -101,14 +101,6 @@ const StepProgressBar = React.forwardRef((props: StepProgressProps, ref) => {
   }
 
   function setStep(step: number): void {
-
-    let isStateValid = true;
-    const stepValidator = state[currentIndex].validator;
-
-    if (stepValidator) {
-      isStateValid = stepValidator();
-    }
-
     dispatch({
       type: 'next-step',
       payload: {
@@ -116,10 +108,7 @@ const StepProgressBar = React.forwardRef((props: StepProgressProps, ref) => {
         state: StepStates.CURRENT
       }
     });
-
-    if (isStateValid) {
-      setCurrentIndex(step - 1);
-    }
+    setCurrentIndex(step - 1);
   }
 
 
