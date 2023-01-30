@@ -1,6 +1,6 @@
 {
   "name": "@gboksm11/react-step-progress",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Multi step and dynamic progress indicator for react. Modified version of saini-g's react-step-progress package",
   "keywords": [
     "react",
