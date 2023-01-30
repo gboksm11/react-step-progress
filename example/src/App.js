@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 import StepProgressBar from 'react-step-progress';
 import 'react-step-progress/dist/index.css';
 
 import './index.css';
 import './App.css';
+
+
+
 
 const step1Content = <h1>Step 1</h1>;
 const step2Content = <h1>Step 2</h1>;
@@ -20,30 +23,42 @@ function step3Validator() {
 }
 
 function App() {
+  const barRef = useRef();
   const onSubmit = () => {
     alert('submit data');
   };
 
+  const setStep = (step) => {
+    console.log(barRef);
+    if (barRef.current) {
+      console.log("hi");
+      barRef.current.setStep(step);
+    }
+  }
+
   return (
     <div class="app">
       <StepProgressBar
+        ref={barRef}
         startingStep={0}
         wrapperClass="progress-wrapper-custom"
         onSubmit={onSubmit}
         submitBtnName="Υποβολή"
-        previousBtnName="Πίσω"
-        nextBtnName="Επόμενο"
+        previousBtnName="Previous"
+        nextBtnName="Next"
         steps={[
           {
             label: 'Step 1',
             name: 'step 1',
-            content: step1Content
+            content: step1Content,
+            skippable: true
           },
           {
             label: 'Step 2',
             name: 'step 2',
             content: step2Content,
-            validator: step2Validator
+            validator: step2Validator,
+            skippable: false
           },
           {
             label: 'Step 3',
@@ -58,6 +73,7 @@ function App() {
           }
         ]}
       />
+      <button onClick={() => {setStep(2)}}></button>
     </div>
   );
 }

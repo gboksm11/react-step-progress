@@ -18,7 +18,15 @@ function stepsReducer(steps: ProgressStep[], action: ReducerAction): ProgressSte
   });
 }
 
-function StepProgressBar(props: StepProgressProps): JSX.Element {
+const StepProgressBar = React.forwardRef((props: StepProgressProps, ref) => {
+  
+  React.useImperativeHandle(ref, () => {
+    return {
+      setStep: setStep
+    };
+  }, []);
+
+
   const {
     steps,
     startingStep,
@@ -34,7 +42,8 @@ function StepProgressBar(props: StepProgressProps): JSX.Element {
     submitBtnName,
     onSubmit,
     previousBtnName,
-    nextBtnName
+    nextBtnName,
+    skipBtnClass
   } = props;
   const [state, dispatch] = React.useReducer(stepsReducer, steps);
   const [currentIndex, setCurrentIndex] = React.useState(startingStep);
@@ -89,6 +98,30 @@ function StepProgressBar(props: StepProgressProps): JSX.Element {
     });
     setCurrentIndex(currentIndex - 1);
   }
+
+  function setStep(step: number): void {
+
+    let isStateValid = true;
+    const stepValidator = state[currentIndex].validator;
+
+    if (stepValidator) {
+      isStateValid = stepValidator();
+    }
+
+    dispatch({
+      type: 'next-step',
+      payload: {
+        index: step - 1,
+        state: StepStates.CURRENT
+      }
+    });
+
+    if (isStateValid) {
+      setCurrentIndex(step - 1);
+    }
+  }
+
+
 
   return (
     <div className={`${styles['progress-bar-wrapper']} ${wrapperClass || ''}`}>
@@ -155,18 +188,22 @@ function StepProgressBar(props: StepProgressProps): JSX.Element {
             {submitBtnName || 'Submit'}
           </a>
         ) : (
-          <a
-            className={`${styles['step-action-btn']} ${styles['action-btn-primary']} ${
-              primaryBtnClass || ''
-            }`}
-            onClick={nextHandler}
-          >
-            {nextBtnName ? nextBtnName : 'Next'}
-          </a>
+          <div>
+            {state[currentIndex].skippable ? <a className={skipBtnClass}>Skip</a> : null}
+            <a
+              className={`${styles['step-action-btn']} ${styles['action-btn-primary']} ${
+                primaryBtnClass || ''
+              }`}
+              onClick={nextHandler}
+            >
+              {nextBtnName ? nextBtnName : 'Next'}
+            </a>
+          </div>
+
         )}
       </div>
     </div>
   );
-}
+});
 
 export default StepProgressBar;

@@ -12,6 +12,7 @@ export interface ProgressStep {
   state?: StepStates;
   content: React.ReactNode;
   validator?: (payload?: any) => boolean;
+  skippable?: boolean;
 }
 
 export interface StepProgressProps {
@@ -30,6 +31,8 @@ export interface StepProgressProps {
   onSubmit: Function;
   previousBtnName?: string;
   nextBtnName?: string;
+  setStepHandler: Function;
+  skipBtnClass?: string;
 }
 
 export interface ReducerAction {
