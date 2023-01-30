@@ -33,6 +33,7 @@ export interface StepProgressProps {
   nextBtnName?: string;
   setStepHandler: Function;
   skipBtnClass?: string;
+  skipNextWrapperClass?: string;
 }
 
 export interface ReducerAction {

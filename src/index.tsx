@@ -43,7 +43,8 @@ const StepProgressBar = React.forwardRef((props: StepProgressProps, ref) => {
     onSubmit,
     previousBtnName,
     nextBtnName,
-    skipBtnClass
+    skipBtnClass,
+    skipNextWrapperClass
   } = props;
   const [state, dispatch] = React.useReducer(stepsReducer, steps);
   const [currentIndex, setCurrentIndex] = React.useState(startingStep);
@@ -188,7 +189,7 @@ const StepProgressBar = React.forwardRef((props: StepProgressProps, ref) => {
             {submitBtnName || 'Submit'}
           </a>
         ) : (
-          <div>
+          <div className={skipNextWrapperClass ? skipNextWrapperClass : 'skip-next-wrapper'}>
             {state[currentIndex].skippable ? <a className={skipBtnClass}>Skip</a> : null}
             <a
               className={`${styles['step-action-btn']} ${styles['action-btn-primary']} ${

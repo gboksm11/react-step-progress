@@ -127,6 +127,13 @@
   filter: opacity(0.7);
   cursor: default;
 }
+.skip-next-wrapper {
+  display: flex;
+  align-items: center;
+  min-width: 30vw;
+  margin-left: auto;
+  justify-content: flex-end;
+}
 
 @keyframes spring-up {
   0% { transform: scale(1); }
